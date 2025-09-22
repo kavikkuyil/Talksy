@@ -1,4 +1,5 @@
-const socket = io("/");
+const socket = io("https://talksy-kfdw.onrender.com/", { secure: true });
+
 const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
 const showChat = document.querySelector("#showChat");
@@ -22,8 +23,9 @@ showChat.addEventListener("click", () => {
 const user = prompt("Enter your name");
 
 var peer = new Peer({
-  host: '127.0.0.1',
-  port: 3030,
+  host: 'https://talksy-kfdw.onrender.com/',
+  port: 443,
+   secure: true,   
   path: '/peerjs',
   config: {
     'iceServers': [

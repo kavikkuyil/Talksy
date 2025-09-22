@@ -1,4 +1,5 @@
 const express = require("express");
+const { ExpressPeerServer } = require("peer");
 const app = express();
 const server = require("http").Server(app);
 const { v4: uuidv4 } = require("uuid");
@@ -8,12 +9,16 @@ const io = require("socket.io")(server, {
     origin: '*'
   }
 });
-const { ExpressPeerServer } = require("peer");
-const opinions = {
-  debug: true,
-}
 
-app.use("/peerjs", ExpressPeerServer(server, opinions));
+
+const peerServer = ExpressPeerServer(server, {
+  path: "/peerjs",
+  debug: true,
+  proxied: true  // important on Render to respect HTTPS headers
+});
+
+app.use("/peerjs", peerServer);
+
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
